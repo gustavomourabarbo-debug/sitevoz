@@ -1,0 +1,43 @@
+name: Atualiza Voz de Brasilia 16-09
+on:
+  push:
+    paths:
+      - '.github/workflows/atualiza-voz-16-09.yml'
+permissions:
+  contents: write
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Atualizar capa
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('Brasília, <!-- -->quarta-feira, 24 de junho de 2026','Brasília, <!-- -->quarta-feira, 16 de setembro de 2026')
+          marker='<div class="h-40 flex items-center justify-center"><div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div></div>'
+          cards='''<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <a href="https://agenciabrasil.ebc.com.br/politica/noticia/2026-09/confira-agenda-dos-presidenciaveis-nesta-quarta-feira-16" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">ELEIÇÕES 2026</span><h3 class="font-bold text-lg mt-2">Lula participa de ato de campanha em Ceilândia nesta quarta-feira</h3><p class="text-sm text-gray-600 mt-2">Agenda presidencial inclui mobilização na Praça do Trabalhador, no Distrito Federal.</p></a>
+          <a href="https://agenciabrasil.ebc.com.br/justica/noticia/2026-09/stf-retoma-sesoes-apos-suspensao-de-casos-moraes-e-mendonca" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">STF</span><h3 class="font-bold text-lg mt-2">STF retoma sessões regulares após suspensão dos trabalhos do plenário</h3><p class="text-sm text-gray-600 mt-2">Sessão foi aberta pelo presidente Edson Fachin e a Corte retomou a pauta nesta quarta-feira.</p></a>
+          <a href="https://agenciabrasil.ebc.com.br/politica/noticia/2026-09/confira-agenda-dos-presidenciaveis-nesta-quarta-feira-16" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">ELEIÇÕES 2026</span><h3 class="font-bold text-lg mt-2">Flávio Bolsonaro cumpre agenda no Ceará e em Pernambuco</h3><p class="text-sm text-gray-600 mt-2">Candidato participa de motocarreata em Juazeiro do Norte e comício em Recife.</p></a>
+          <a href="https://www.camara.leg.br/deputados/204372" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">DISTRITO FEDERAL</span><h3 class="font-bold text-lg mt-2">Julio Cesar Ribeiro: Câmara atualiza dados parlamentares</h3><p class="text-sm text-gray-600 mt-2">Portal da Câmara reúne atividade, cargos, proposições e informações do parlamentar do Distrito Federal.</p></a>
+          <a href="https://www.itatiaia.com.br/politica/michelle-rebate-sebastiao-coelho-nega-deixar-senado-e-diz-que-e-candidata-de-bolsonaro/" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">ELEIÇÕES 2026</span><h3 class="font-bold text-lg mt-2">Michelle Bolsonaro responde a declarações de Sebastião Coelho</h3><p class="text-sm text-gray-600 mt-2">Candidata ao Senado pelo DF divulgou comunicado nesta quarta-feira.</p></a>
+          <a href="https://www.camara.leg.br/deputados/204374" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">CONGRESSO</span><h3 class="font-bold text-lg mt-2">Bia Kicis tem dados parlamentares atualizados pela Câmara</h3><p class="text-sm text-gray-600 mt-2">Página oficial reúne cargos, emendas, despesas e atuação legislativa atualizada.</p></a>
+          <a href="https://legis.senado.leg.br/atividade/comissoes/comissao/2864/composicao" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">SENADO</span><h3 class="font-bold text-lg mt-2">Leila Barros preside comissão mista da MP 1366/2026</h3><p class="text-sm text-gray-600 mt-2">Composição oficial do Senado, atualizada nesta quarta-feira, registra a senadora do DF na presidência.</p></a>
+          <a href="https://www.cl.df.gov.br/pt/busca/-/documentos/PL_2236_2026?delta=40&start=13767" target="_blank" rel="noopener noreferrer" class="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-xl"><span class="text-xs font-bold text-green-700">CLDF</span><h3 class="font-bold text-lg mt-2">Doutora Jane apresenta indicação para posto policial na Feira Modelo de Sobradinho</h3><p class="text-sm text-gray-600 mt-2">Documento da CLDF foi registrado nesta quarta-feira e sugere providências à Segurança Pública e à PMDF.</p></a>
+          <div class="bg-white rounded-xl shadow-md p-5 border border-gray-100"><span class="text-xs font-bold text-green-700">DISTRITO FEDERAL</span><h3 class="font-bold text-lg mt-2">Hermeto disputa novo mandato de deputado distrital</h3><p class="text-sm text-gray-600 mt-2">Registro eleitoral consultado nesta quarta-feira aponta candidatura deferida para as eleições de 2026.</p></div>
+          </div>'''
+          if marker not in s:
+              raise SystemExit('Marcador da seção Últimas Notícias não encontrado')
+          s=s.replace(marker,cards,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Publicar alteração
+        run: |
+          git config user.name "TV Voz de Brasilia"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "Atualiza notícias da capa em 16/09/2026"
+          git push
